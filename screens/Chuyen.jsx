@@ -13,14 +13,14 @@ export default function App({ route }) {
     console.log(sendAccount)
     console.log(account)
     function chuyenTien(send,take){
-        console.log(send+"tke"+take)
-        fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+account.id,{
-            method:"PUT",
-            headers:{ 'content-type': 'application/json' },
-            body:JSON.stringify(
-                { balance:take}
-            )
-        }).then(res => res.json())
+        // console.log(send+"tke"+take)
+        // fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+account.id,{
+        //     method:"PUT",
+        //     headers:{ 'content-type': 'application/json' },
+        //     body:JSON.stringify(
+        //         { balance:take}
+        //     )
+        // }).then(res => res.json())
         fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+sendAccount.id,{
             method:"PUT",
             headers:{ 'content-type': 'application/json' },

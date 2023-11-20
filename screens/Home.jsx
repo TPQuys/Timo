@@ -4,15 +4,17 @@ import { RadioButton } from 'react-native-paper';
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useState } from 'react';
 
 export default function App({ route }) {
     route = useRoute()
-    const account = route.params
+    var account = route.params
     function convert(balance) {
         return new Intl.NumberFormat({ style: 'currency', currency: 'EUR' }).format(
             balance,
         )
     }
+    console.log(account)
     const Navigation = useNavigation();
     return (
         <View style={styles.container}>

@@ -1,16 +1,27 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 
-export default function App() {
+export default function App({route}) {
     const Navigation = useNavigation();
-    var [accounts, setAccounts] = useState([]);
+    route = useRoute();
     var [user, setUser] = useState("");
     var [password, setPassword] = useState("");
-    fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
-        .then((res) => res.json())
-        .then((json) => setAccounts(json))
+    var [name, setName] = useState("");
+    const accounts = route.params
+    async function post(user,password,name) {
+        const res = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account", {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(
+                {
+                    name,user,password,"balance":0
+                }
+            )
+        })
+            .then(res => res.json())
+    }
     return (
         <LinearGradient
             colors={['#d3c7e3', '#a47dd5', "#44336a", "#211b2b"]}
@@ -25,54 +36,41 @@ export default function App() {
                 </View>
                 <Text style={{ color: "white" }}>Ver: 23.36</Text>
             </View>
-            <View style={{ height: "57%" }}></View>
-            <View>
+            <View style={{ top: 200 }}>
                 <TextInput style={styles.userView}
                     placeholder='Tên đăng nhập / Số điện thoại'
                     onChangeText={setUser}
                     value={user}
                 ></TextInput>
-                <View style={styles.passView}>
-                    <View style={styles.passInput}>
-                        <TextInput
-                            style={styles.pass}
-                            placeholder='Mật khẩu'
-                            onChangeText={setPassword}
-                            value={password}
-                        ></TextInput>
-                    </View>
-                    <TouchableOpacity style={styles.button}
-                        onPress={() => {
-                            if (user != "" && password != "") {
-                                let account = accounts.find((account) => account.user === user && account.password === password)
-                                if (account != null) {
-                                    alert(account.name)
-                                    console.log(account)
-                                    Navigation.navigate("Home", account)
+                <TextInput
+                    style={styles.userView}
+                    placeholder='Mật khẩu'
+                    onChangeText={setPassword}
+                    value={password}
+                ></TextInput>
+                <TextInput
+                    style={styles.userView}
+                    placeholder='Họ và tên'
+                    onChangeText={setName}
+                    value={name}
+                ></TextInput>
+                <TouchableOpacity style={styles.button}
+                    onPress={() => {
+                        if (user != "" && password != "" && name != "") {
+                                if (accounts.some(account => account.user === user)) {
+                                    alert("tai khoan da ton tai")
+                                } else {
+                                    post(user, password,name);
+                                    console.log("Dang ki thanh cong"+user+password+name)
+                                    Navigation.push("DangNhap")
                                 }
-                                else
-                                    Navigation.navigate("Error")
+                        }
+                        else alert("Hay nhap du thong tin")
 
-                            }
-                            else Navigation.navigate("Error")
-                        }}
-                    >
-                        <Text style={styles.buttonText}>ĐĂNG NHẬP</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity onPress={()=>{
-                    Navigation.navigate("DangKi",accounts)
-                }}><Text style={styles.greenText}>Đăng ký</Text></TouchableOpacity>
-                <Text style={{ color: "white" }}> | </Text>
-                <TouchableOpacity><Text style={styles.greenText}>Không thể đăng nhập?</Text></TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: "row", flex: 1 }}>
-                <View style={{ backgroundColor: "#5b4780ff", flex: 0.25 }}></View>
-                <View style={{ backgroundColor: "#215f90", flex: 0.25 }}></View>
-                <View style={{ backgroundColor: "#c02800", flex: 0.25 }}></View>
-                <View style={{ backgroundColor: "#d1781f", flex: 0.25 }}></View>
+                    }}
+                >
+                    <Text style={styles.buttonText}>Đăng kí</Text>
+                </TouchableOpacity>
             </View>
         </LinearGradient>
     );
@@ -136,6 +134,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
+        margin: "auto"
 
     },
     buttonText: {

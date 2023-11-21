@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function App({ route }) {
@@ -11,9 +11,14 @@ export default function App({ route }) {
     var [bank, setBank] = useState("")
     var [code, setCode] = useState("")
     var [accounts, setAccounts] = useState([]);
-    fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
-        .then((res) => res.json())
-        .then((json) => setAccounts(json))
+    useEffect(()=>{
+        async function fetchData(){
+        const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
+        const responseJSON = await response.json();
+        setAccounts(responseJSON);
+        }
+        fetchData();
+    },[])
     return (
         <View style={styles.container}>
             <TextInput onChangeText={setBank} value={bank} style={styles.input} placeholder='Tên ngân hàng' />

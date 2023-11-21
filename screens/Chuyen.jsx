@@ -1,45 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function App({ route }) {
     const Navigation = useNavigation();
     var [trans,setTrans] = useState('');
     var [note,setNote] = useState('');
+    var [account,setAccounts] = useState({});
     route = useRoute()
-    const [account,sendAccount] = route.params
-    console.log(sendAccount)
-    console.log(account)
-    function chuyenTien(send,take){
-        // console.log(send+"tke"+take)
-        // fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+account.id,{
-        //     method:"PUT",
-        //     headers:{ 'content-type': 'application/json' },
-        //     body:JSON.stringify(
-        //         { balance:take}
-        //     )
-        // }).then(res => res.json())
-        fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+sendAccount.id,{
+    const [id,sendAccount] = route.params
+    useEffect(()=>{
+        async function fetchData(){
+        const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+id)
+        const responseJSON = await response.json();
+        setAccounts(responseJSON);
+        }
+        fetchData();
+    },[])
+    const [upload,setUpload] = useState({});
+        async function guiTien(send){
+        const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+sendAccount.id,{
             method:"PUT",
             headers:{ 'content-type': 'application/json' },
             body:JSON.stringify(
                 { balance:send}
-            )
-        }).then(res => res.json())
-    }
+            )})
+        }
+        async function nhanTien(take){
+            const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account/"+account.id,{
+                method:"PUT",
+                headers:{ 'content-type': 'application/json' },
+                body:JSON.stringify(
+                    { balance:take}
+                )})
+            }
     return (
         <View style={styles.container}>
             <TextInput onChangeText={setTrans} value={trans} style={styles.input} placeholder='Nhập số tiền' />
             <TextInput onChangeText={setNote} value={note} style={styles.input} placeholder='Nhập lời nhắn (tùy chọn)' />
             <TouchableOpacity
             onPress={()=>{
-                let take=account.balance+trans
                 let send = sendAccount.balance-trans
-                chuyenTien(send,take)
-                alert("Chuyển tiền thành công")
-                Navigation.navigate("Home",sendAccount)
+                let take = trans*1+account.balance
+                guiTien(send);nhanTien(take)
+                account.balance = send
+                Navigation.navigate("Home",account)
             }}
              style={styles.submit}><Text>XÁC NHẬN</Text></TouchableOpacity>
         </View>

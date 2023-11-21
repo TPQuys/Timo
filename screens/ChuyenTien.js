@@ -18,7 +18,7 @@ export default function App({route}) {
                 <View style={{ flexDirection: "row", justifyContent: "space-between", margin: 15 }}>
                     <TouchableOpacity
                     onPress={()=>{
-                        Navigation.navigate("Account",account)
+                        Navigation.push("Account",account)
                     }} style={styles.box}>
                         <Image source={require("../pics/people.jpg")} style={{ height: 30, width: 50 }} />
                         <Text>Mới</Text>
@@ -40,13 +40,17 @@ export default function App({route}) {
                 <FlatList
                     data={account.fav}
                     renderItem={({ item }) => (
-                        <View style={{ flexDirection: "row", margin: 15, gap: 10 }}>
+                        <TouchableOpacity
+                        onPress={()=>{Navigation.push("Chuyen",[item.id,account]) 
+                        console.log(item.id)}}
+                        
+                         style={{ flexDirection: "row", margin: 15, gap: 10 }}>
                             <Image source={require("../pics/avatar.jpg")} style={{ height: 45, width: 45 }} />
                             <View style={{ gap: 10 }}>
                                 <Text style={{ fontWeight: 700 }}>{item.name}</Text>
-                                <Text>Thanh toán lần cuối: {item.last}</Text>
+                                <Text>: {item.bank}</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )}
                 />
             </ScrollView>

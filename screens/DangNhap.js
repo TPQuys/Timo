@@ -1,16 +1,21 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function App() {
     const Navigation = useNavigation();
     var [accounts, setAccounts] = useState([]);
     var [user, setUser] = useState("");
     var [password, setPassword] = useState("");
-    fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
-        .then((res) => res.json())
-        .then((json) => setAccounts(json))
+    useEffect(()=>{
+        async function fetchData(){
+        const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
+        const responseJSON = await response.json();
+        setAccounts(responseJSON);
+        }
+        fetchData();
+    },[])
     return (
         <LinearGradient
             colors={['#d3c7e3', '#a47dd5', "#44336a", "#211b2b"]}

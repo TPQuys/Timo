@@ -3,15 +3,12 @@ import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity 
 import { RadioButton } from 'react-native-paper';
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
-
-export default function App(Navigation) {
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { tabs } from '../js/tabs';
+export default function App(Navigation,{route}) {
+    route = useRoute()
     Navigation = useNavigation();
-    const account = {
-        "name" : "quy trinh",
-        "user" : "0949194600",
-        "balance": "100000000"
-    }
+    const account = route.params
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row", backgroundColor: "white", padding: 10, }}>
@@ -91,18 +88,7 @@ export default function App(Navigation) {
                 </View>
 
             </ScrollView>
-            <View style={{ flexDirection: "row",justifyContent:"space-between", padding:20,bottom:1,width:"100%",borderTopLeftRadius:20,borderTopRightRadius:20,position:"absolute",backgroundColor:"white",height:70 }}>
-                <TouchableOpacity onPress={()=>Navigation.navigate("Home",account)}><Ionicons style={{margin:"auto"}} name="home" color={"lightgrey"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Trang chủ</Text></TouchableOpacity>
-                <TouchableOpacity onPress={()=>Navigation.navigate("KhamPha")}><Ionicons  style={{margin:"auto"}} name="bar-chart" color={"#eb3300"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Khám phá</Text></TouchableOpacity>
-                <View><TouchableOpacity onPress={()=>Navigation.navigate("KhamPha")} style={{top:-40,height:50,width:50,backgroundColor:"#563d81",margin:"auto",borderRadius:"50%"}}><Ionicons style={{margin:"auto"}} name='swap-horizontal' color={"lightgray"} size={30} /></TouchableOpacity>
-                <Text style={{margin:"auto", fontSize:12,top:-16}}>Chuyển tiền</Text></View>
-                <TouchableOpacity onPress={()=>Navigation.navigate("NguoiNhan")}><Ionicons style={{margin:"auto"}} name="people" color={"lightgray"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Người nhận</Text></TouchableOpacity>
-                <View ><Ionicons style={{margin:"auto"}} name="list" color={"lightgray"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Khác</Text></View>
-            </View>
+            {tabs(account,"KhamPha")}
         </View>
     );
 }

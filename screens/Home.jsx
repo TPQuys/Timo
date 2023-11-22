@@ -5,8 +5,18 @@ import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
+import { tabs } from '../js/tabs';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
 
 export default function App({ route }) {
+    const slide = [
+        {id:1,image:require("../pics/background.jpg")},
+        {id:2,image:require("../pics/background1.jpg")},
+        {id:3,image:require("../pics/background2.jpg")},
+        {id:4,image:require("../pics/background3.jpg")}
+    ];
+
     route = useRoute()
     var account = route.params
     function convert(balance) {
@@ -29,7 +39,13 @@ export default function App({ route }) {
                     <Ionicons name='notifications' color={"#553d82"} size={25} />
                 </View>
             </View>
-            <Image source={require("../pics/background.jpg")} style={{ width: "100%", height: 170, zIndex: -1 }}></Image>
+            <Slide >
+                    {slide.map((item) => (
+                        <View style={{alignItems:"center",justifyContent:"center",gap:3}}>
+                        <Image source={{ uri: item.image }}  style={{ width: "100%", height: 170, zIndex: -1 }} />
+                        </View>
+                    ))}
+            </Slide>
             <View style={styles.view1}>
                 <View style={styles.account}>
                     <View>
@@ -74,18 +90,7 @@ export default function App({ route }) {
                 dồng. <TouchableOpacity style={styles.number}>
                     Tìm hiểu thêm
                 </TouchableOpacity></Text>
-            <View style={{ flexDirection: "row",justifyContent:"space-between", padding:20,bottom:1,width:"100%",borderTopLeftRadius:20,borderTopRightRadius:20,position:"absolute",backgroundColor:"white",height:70 }}>
-                <TouchableOpacity onPress={()=>Navigation.navigate("Home",account)}><Ionicons style={{margin:"auto"}} name="home" color={"#563d81"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Trang chủ</Text></TouchableOpacity>
-                <TouchableOpacity onPress={()=>Navigation.navigate("KhamPha",account)}><Ionicons  style={{margin:"auto"}} name="bar-chart" color={"lightgray"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Khám phá</Text></TouchableOpacity>
-                <View><TouchableOpacity onPress={()=>Navigation.navigate("ChuyenTien",account)} style={{top:-40,height:50,width:50,backgroundColor:"#563d81",margin:"auto",borderRadius:"50%"}}><Ionicons style={{margin:"auto"}} name='swap-horizontal' color={"lightgray"} size={30} /></TouchableOpacity>
-                <Text style={{margin:"auto", fontSize:12,top:-16}}>Chuyển tiền</Text></View>
-                <TouchableOpacity onPress={()=>Navigation.navigate("NguoiNhan",account)}><Ionicons style={{margin:"auto"}} name="people" color={"lightgray"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Người nhận</Text></TouchableOpacity>
-                <View ><Ionicons style={{margin:"auto"}} name="list" color={"lightgray"} size={30} />
-                <Text style={{margin:"auto", fontSize:12}}>Khác</Text></View>
-            </View>
+           {tabs(account,"Home")}
         </View>
     );
 }

@@ -28,7 +28,8 @@ export default function App() {
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='KhamPha' component={KhamPha} />
         <Stack.Screen name='NguoiNhan' component={NguoiNhan} />
-        <Stack.Screen name='Chuyen' component={Chuyen} />
+      <Stack.Screen name='Chuyen' component={Chuyen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   )

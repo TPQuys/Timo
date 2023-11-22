@@ -48,7 +48,7 @@ export default function App({route}) {
                             <Image source={require("../pics/avatar.jpg")} style={{ height: 45, width: 45 }} />
                             <View style={{ gap: 10 }}>
                                 <Text style={{ fontWeight: 700 }}>{item.name}</Text>
-                                <Text>: {item.bank}</Text>
+                                <Text>{item.bank}</Text>
                             </View>
                         </TouchableOpacity>
                     )}

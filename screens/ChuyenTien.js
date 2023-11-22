@@ -11,8 +11,14 @@ export default function App({route}) {
     const account = route.params
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: "row", backgroundColor: "white", padding: 10, }}>
-                <TouchableOpacity onPress={()=>Navigation.goBack()}> <Ionicons name='backspace'></Ionicons> </TouchableOpacity>
+             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
+                <TouchableOpacity onPress={()=>Navigation.goBack()}>
+                    <Image source={require("../pics/back.jpg")} style={{ height: 35, width: 35 }} />
+                </TouchableOpacity>
+                <Text style={{ fontWeight: 500, fontSize: 20 }}>Chuyển tiền</Text>
+                <TouchableOpacity onPress={()=>Navigation.navigate("Home",sendAccount)}>
+                    <Text style={{ color: "#563d81", fontSize: 16 }}>Hủy</Text>
+                </TouchableOpacity>
             </View>
             <ScrollView style={styles.body}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", margin: 15 }}>
@@ -23,14 +29,14 @@ export default function App({route}) {
                         <Image source={require("../pics/people.jpg")} style={{ height: 30, width: 50 }} />
                         <Text>Mới</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity style={styles.box}>
+                    <View style={styles.box}>
                         <Image source={require("../pics/new.jpg")} style={{ height: 30, width: 50 }} />
                         <Text>Tài khoản</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.box}>
+                    </View>
+                    <View style={styles.box}>
                         <Image source={require("../pics/qr.jpg")} style={{ height: 30, width: 50 }} />
                         <Text>Số thẻ</Text>
-                    </TouchableOpacity> */}
+                    </View>
                 </View>
                 <View style={{ padding: 15, flexDirection: "row" }}>
                     <Image source={require("../pics/pin.jpg")} style={{ height: 30, width: 30 }} />

@@ -10,7 +10,9 @@ export default function App({ route }) {
     var send = route.params
     var [bank, setBank] = useState("")
     var [code, setCode] = useState("")
+    var [account,setAccount] = useState(null);
     var [accounts, setAccounts] = useState([]);
+    var [bool,setBool] = useState(false);
     useEffect(()=>{
         async function fetchData(){
         const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
@@ -19,22 +21,48 @@ export default function App({ route }) {
         }
         fetchData();
     },[])
+
+    function renderName(account){
+        if(account!=null)
+        return  <Text style={styles.input}>{account.name}</Text>
+    }
     return (
         <View style={styles.container}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
+                <TouchableOpacity onPress={() => Navigation.goBack()}>
+                    <Image source={require("../pics/back.jpg")} style={{ height: 35, width: 35 }} />
+                </TouchableOpacity>
+                <Text style={{ fontWeight: 500, fontSize: 20 }}>Thêm tài khoản</Text>
+                <TouchableOpacity onPress={() => Navigation.navigate("Home", send)}>
+                    <Text style={{ color: "#563d81", fontSize: 16 }}>Hủy</Text>
+                </TouchableOpacity>
+            </View>
             <TextInput onChangeText={setBank} value={bank} style={styles.input} placeholder='Tên ngân hàng' />
-            <TextInput onChangeText={setCode} value={code} style={styles.input} placeholder='Số tài khoản' />
+            <TextInput onChangeText={setCode} onBlur={()=>{
+                let acc = accounts.find((account) => account.bank === bank && account.code == code)
+                        if (acc != null) {
+                            setAccount(acc)
+                        }
+        else 
+        console.log("null")
+            }} value={code} style={styles.input} placeholder='Số tài khoản' />
+            {
+                renderName(account)
+            }
+           
             <TouchableOpacity
                 onPress={() => {
                     if (bank != "" && code != "") {
-                        let account = accounts.find((account) => account.bank === bank && account.code === code)
-                        if (account != null) {
-                            Navigation.navigate("Chuyen", [account,send])
+                        let acc = accounts.find((account) => account.bank === bank && account.code == code)
+                        if (acc != null) {
+                            console.log("true")
+                            Navigation.navigate("Chuyen", [acc.id,send])
                         }
                         else
                             Navigation.navigate("Error")
 
                     }
-                    else Navigation.navigate("Error")
+                    else alert("Hãy nhập đủ thông tin")
                 }}
                 style={styles.submit}><Text style={{ color: "white", fontWeight: 700 }}>XÁC NHẬN</Text></TouchableOpacity>
         </View>
@@ -46,12 +74,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "white",
     },
-    input: {
-        margin: 10,
-        borderWidth: 1,
-        paddingVertical: 20,
-        padding: 5
-    },
+    input: { margin: 10, shadowOpacity: 0.3, shadowRadius: 5, borderRadius: 5, paddingVertical: 22, gap: 10,padding:8, fontSize:15, fontWeight:500,color:"grey" },
+
     submit: {
         alignItems: "center",
         justifyContent: "center",

@@ -22,13 +22,13 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='DangNhap' component={DangNhap} />
         <Stack.Screen name='DangKi' component={DangKi} />
-        <Stack.Screen name='Account' component={Account} />
         <Stack.Screen name='ChuyenTien' component={ChuyenTien} />
         <Stack.Screen name='Error' component={LoginError} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='KhamPha' component={KhamPha} />
         <Stack.Screen name='NguoiNhan' component={NguoiNhan} />
-      <Stack.Screen name='Chuyen' component={Chuyen} />
+        <Stack.Screen name='Chuyen' component={Chuyen} />
+        <Stack.Screen name='Account' component={Account} />
 
       </Stack.Navigator>
     </NavigationContainer>

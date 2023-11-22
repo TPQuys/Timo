@@ -39,11 +39,11 @@ export default function App({ route }) {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={()=>Navigation.goBack()}>
                     <Image source={require("../pics/back.jpg")} style={{ height: 35, width: 35 }} />
                 </TouchableOpacity>
                 <Text style={{ fontWeight: 500, fontSize: 20 }}>Chuyển tiền</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>Navigation.navigate("Home",sendAccount)}>
                     <Text style={{ color: "#563d81", fontSize: 16 }}>Hủy</Text>
                 </TouchableOpacity>
             </View>

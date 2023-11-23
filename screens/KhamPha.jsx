@@ -1,7 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { tabs } from '../js/tabs';

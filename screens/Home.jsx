@@ -1,10 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useState } from 'react';
 import { tabs } from '../js/tabs';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
@@ -24,7 +20,6 @@ export default function App({ route }) {
             balance,
         )
     }
-    console.log(account)
     const Navigation = useNavigation();
     return (
         <View style={styles.container}>
@@ -41,7 +36,7 @@ export default function App({ route }) {
             </View>
             <Slide >
                     {slide.map((item) => (
-                        <View style={{alignItems:"center",justifyContent:"center",gap:3}}>
+                        <View key={item.id} style={{alignItems:"center",justifyContent:"center",gap:3}}>
                         <Image source={{ uri: item.image }}  style={{ width: "100%", height: 170, zIndex: -1 }} />
                         </View>
                     ))}
@@ -64,7 +59,9 @@ export default function App({ route }) {
                         <Text>Nạp tiền</Text>
                     </View>
                     <View style={styles.toolLabel}>
-                        <TouchableOpacity style={styles.circle}>
+                        <TouchableOpacity 
+                        onPress={()=>Navigation.navigate("History",account)}
+                        style={styles.circle}>
                             <Ionicons style={styles.icon} name='timer-outline'></Ionicons>
                         </TouchableOpacity>
                         <Text>Lịch sử</Text> <Text> giao dịch</Text>
@@ -88,7 +85,7 @@ export default function App({ route }) {
             <Text style={styles.hanMuc}>Hạn mức chuyển khoản mỗi tháng 100.000.000 </Text>
             <Text style={styles.hanMuc}>
                 dồng. <TouchableOpacity style={styles.number}>
-                    Tìm hiểu thêm
+                    <Text>Tìm hiểu thêm</Text>
                 </TouchableOpacity></Text>
            {tabs(account,"Home")}
         </View>

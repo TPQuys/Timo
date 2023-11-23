@@ -5,8 +5,8 @@ import { useState } from 'react';
 export default function App({ route }) {
     const Navigation = useNavigation();
     route = useRoute();
-    var [user, setUser] = useState("");
-    const accounts = route.params
+    const user = route.params
+    var [name, setName] = useState("");
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
@@ -17,21 +17,16 @@ export default function App({ route }) {
             <View style={{flexDirection:"row",backgroundColor:"lightgray",borderRadius:10,margin:10}}>
                 <View style={[styles.progess,{backgroundColor:"grey"}]}/>
             </View>
-            <Text style={{fontSize:28,marginHorizontal:10}}>Bắt đầu với</Text>
-            <Text style={{fontSize:20,fontWeight:700,marginHorizontal:10}}>số điện thoại của bạn</Text>
-            <TextInput onChangeText={setUser} value={user} style={styles.input} placeholder='Số điện thoại di động' />
+            <Text style={{fontSize:28,marginHorizontal:10}}>Vui lòng thêm</Text>
+            <Text style={{fontSize:20,fontWeight:700,marginHorizontal:10}}>thông tin của bạn</Text>
+            <TextInput onChangeText={setName} value={name} style={styles.input} placeholder='Họ và tên' />
             <TouchableOpacity
-            onPress={()=>{
-                let vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-                if(user!="" && vnf_regex.test(user)){
-                if(!accounts.some((account) => account.user ===user))
-                    Navigation.navigate("DangKi2",user)
-                    else alert("Tài khoản đã tồn tại")
-                }
-                else Navigation.navigate("InputError")
-            }}
-            
-                style={styles.submit}><Text style={{ color: "white", fontWeight: 700 }}>TIẾP THEO</Text></TouchableOpacity>
+                style={styles.submit} 
+                onPress={()=>{
+                    if(name!="") Navigation.push("DangKi3",[user,name])
+                    else Navigation.navigate("InputError")
+                }}
+                ><Text style={{ color: "white", fontWeight: 700 }}>TIẾP THEO</Text></TouchableOpacity>
         </View>
     );
 }
@@ -56,7 +51,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     progess:{
-        flex:0.25,
+        flex:0.5,
         height:5,
         borderRadius:10
     }

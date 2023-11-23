@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput,Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
@@ -43,7 +43,7 @@ export default function App() {
             <View style={{height:"57%"}}>
             <Slide >
                     {slide.map((item) => (
-                        <View style={{alignItems:"center",justifyContent:"center",gap:3}}>
+                        <View key={item.id} style={{alignItems:"center",justifyContent:"center",gap:3}}>
                         <Text style={{fontWeight:200,fontSize:25,color:"white"}}>{item.text1}</Text>
                         <Text style={{color:"white"}}>{item.text2}</Text>
                         <Image source={{ uri: item.image }} style={{margin:"auto", height: 320, width: 220,borderRadius:10,marginTop:10 }} />
@@ -81,15 +81,7 @@ export default function App() {
                                     Navigation.navigate("Error")
 
                             }
-                            else Alert.alert('Alert Title', 'My Alert Msg', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ]);
-                        }}
+                            else Navigation.navigate("InputError")}}
                     >
                         <Text style={styles.buttonText}>ĐĂNG NHẬP</Text>
                     </TouchableOpacity>

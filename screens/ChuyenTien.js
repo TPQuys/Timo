@@ -1,8 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { LinearGradient } from "expo-linear-gradient";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function App({route}) {
@@ -16,9 +12,7 @@ export default function App({route}) {
                     <Image source={require("../pics/back.jpg")} style={{ height: 35, width: 35 }} />
                 </TouchableOpacity>
                 <Text style={{ fontWeight: 500, fontSize: 20 }}>Chuyển tiền</Text>
-                <TouchableOpacity onPress={()=>Navigation.navigate("Home",sendAccount)}>
-                    <Text style={{ color: "#563d81", fontSize: 16 }}>Hủy</Text>
-                </TouchableOpacity>
+                <View/>
             </View>
             <ScrollView style={styles.body}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", margin: 15 }}>

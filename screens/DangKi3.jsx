@@ -5,8 +5,20 @@ import { useState } from 'react';
 export default function App({ route }) {
     const Navigation = useNavigation();
     route = useRoute();
-    var [user, setUser] = useState("");
-    const accounts = route.params
+    const [user,name] = route.params
+    const [password,setPassword] = useState('')
+    const [repassword,setRepassword] = useState('')
+    async function post(user, password, name) {
+        const res = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account", {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(
+                {
+                    name, user, password, "balance": 0,"fav":[],"bank":'Timo'
+                }
+            )
+        })
+    }
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
@@ -17,21 +29,20 @@ export default function App({ route }) {
             <View style={{flexDirection:"row",backgroundColor:"lightgray",borderRadius:10,margin:10}}>
                 <View style={[styles.progess,{backgroundColor:"grey"}]}/>
             </View>
-            <Text style={{fontSize:28,marginHorizontal:10}}>Bắt đầu với</Text>
-            <Text style={{fontSize:20,fontWeight:700,marginHorizontal:10}}>số điện thoại của bạn</Text>
-            <TextInput onChangeText={setUser} value={user} style={styles.input} placeholder='Số điện thoại di động' />
+            <Text style={{fontSize:28,marginHorizontal:10}}>Tạo</Text>
+            <Text style={{fontSize:20,fontWeight:700,marginHorizontal:10}}>Mật khẩu đăng nhập</Text>
+            <TextInput secureTextEntry={true} onChangeText={setPassword} value={password} style={styles.input} placeholder='Mật khẩu đăng nhập' />
+            <TextInput secureTextEntry={true} onChangeText={setRepassword} value={repassword} style={styles.input} placeholder='Nhập lại mật khẩu đăng nhập' />
             <TouchableOpacity
-            onPress={()=>{
-                let vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-                if(user!="" && vnf_regex.test(user)){
-                if(!accounts.some((account) => account.user ===user))
-                    Navigation.navigate("DangKi2",user)
-                    else alert("Tài khoản đã tồn tại")
-                }
-                else Navigation.navigate("InputError")
-            }}
-            
-                style={styles.submit}><Text style={{ color: "white", fontWeight: 700 }}>TIẾP THEO</Text></TouchableOpacity>
+                onPress={()=>{
+                    if(password!="" && repassword!="" && password===repassword)
+                    {
+                        post(user,password,name)
+                        Navigation.navigate("DangKiThanhCong")
+                    }
+                    else Navigation.navigate("InputError")
+                }}
+                style={styles.submit}><Text style={{ color: "white", fontWeight: 700 }}>TẠO TÀI KHOẢN</Text></TouchableOpacity>
         </View>
     );
 }
@@ -56,7 +67,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     progess:{
-        flex:0.25,
+        flex:0.75,
         height:5,
         borderRadius:10
     }

@@ -1,6 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -9,10 +7,9 @@ export default function App({ route }) {
     route = useRoute();
     var send = route.params
     var [bank, setBank] = useState("")
-    var [code, setCode] = useState("")
+    var [user, setUser] = useState("")
     var [account,setAccount] = useState(null);
     var [accounts, setAccounts] = useState([]);
-    var [bool,setBool] = useState(false);
     useEffect(()=>{
         async function fetchData(){
         const response  = await fetch("https://655b4d61ab37729791a8e04d.mockapi.io/account")
@@ -38,31 +35,31 @@ export default function App({ route }) {
                 </TouchableOpacity>
             </View>
             <TextInput onChangeText={setBank} value={bank} style={styles.input} placeholder='Tên ngân hàng' />
-            <TextInput onChangeText={setCode} onBlur={()=>{
-                let acc = accounts.find((account) => account.bank === bank && account.code == code)
+            <TextInput onChangeText={setUser} onBlur={()=>{
+                let acc = accounts.find((account) => account.bank === bank && account.user == user)
                         if (acc != null) {
                             setAccount(acc)
                         }
         else 
         console.log("null")
-            }} value={code} style={styles.input} placeholder='Số tài khoản' />
+            }} value={user} style={styles.input} placeholder='Số tài khoản' />
             {
                 renderName(account)
             }
            
             <TouchableOpacity
                 onPress={() => {
-                    if (bank != "" && code != "") {
-                        let acc = accounts.find((account) => account.bank === bank && account.code == code)
+                    if (bank != "" && user != "") {
+                        let acc = accounts.find((account) => account.bank === bank && account.user == user)
                         if (acc != null) {
                             console.log("true")
                             Navigation.navigate("Chuyen", [acc.id,send])
                         }
                         else
-                            Navigation.navigate("Error")
+                            Navigation.navigate("InputError")
 
                     }
-                    else alert("Hãy nhập đủ thông tin")
+                    else Navigation.navigate("InputError")
                 }}
                 style={styles.submit}><Text style={{ color: "white", fontWeight: 700 }}>XÁC NHẬN</Text></TouchableOpacity>
         </View>
